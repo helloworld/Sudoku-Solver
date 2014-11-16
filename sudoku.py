@@ -63,6 +63,7 @@ def printMatrix(matrix):
         for y in x:
             print(y, end=" ")
     print()
+    print()
 
 def checkRowsAndColumns(matrix):
     while True:
@@ -117,8 +118,15 @@ def checkBlocksHelper(matrix):
                     if(len(matrix[x][y].value) ==1):
                         # print(x, y, "changed to", matrix[x][y].value)
                         return (matrix, False)
-
     return (matrix, True)
+
+def allCellsHaveValues(matrix):
+    for x in range(9):
+        for y in range(9):
+            if(matrix[x][y].value == set()):
+                return False
+    else:
+        return True
 
 def main():
     matrix = createTheSudokuBoard();
@@ -127,6 +135,8 @@ def main():
     printMatrix(matrix)
     matrix = checkBlocks(matrix)
     printMatrix(matrix)
+
+    print("All Cells Have Values:", allCellsHaveValues(matrix))
     
 if __name__ == '__main__':
     main()
