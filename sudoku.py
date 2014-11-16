@@ -50,7 +50,7 @@ def createTheSudokuBoard():
     # ]
     M = []
     # string = "4815.967.3..816..25..7.3..82.......99.......18.......4.3927548.6.....9277.....31."
-    string = "3..2........1.7...7.6.3.5...7...9.8.9...2...4.1.8...5...9.4.3.1...7.2........8..6"
+    string = "..1..7.9.59..8...1.3.....8......58...5..6..2...41......8.....3.1...2..79.2.7..4.."
     string = string.replace(".", "0")
     for x in range(9):
         row = []
@@ -109,7 +109,7 @@ def checkUniques(matrix):
         if(condition == True):
             return matrix;
         else:
-            matrix = checkBlocks(matrix)
+            matrix = reduceMatrix(matrix)
 
 
 def checkUniquesHelper(matrix):
