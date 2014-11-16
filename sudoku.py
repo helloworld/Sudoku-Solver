@@ -128,6 +128,14 @@ def allCellsHaveValues(matrix):
     else:
         return True
 
+def numberOfEmptySells(matrix):
+    count = 0
+    for x in range(9):
+        for y in range(9):
+            if(len(matrix[x][y].value) > 1):
+                count+=1
+    else:
+        print("Number of Empty Cells:", count)
 def main():
     matrix = createTheSudokuBoard();
     printMatrix(matrix)
