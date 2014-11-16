@@ -64,8 +64,37 @@ def printMatrix(matrix):
             print(y, end=" ")
     print()
 
+def checkRowsAndColumns(matrix):
+    while True:
+        (matrix, condition) = checkRowsAndColumnsHelper(matrix)
+        if(condition == True):
+            return matrix;
+
+def checkRowsAndColumnsHelper(matrix):
+    for x in range(9):
+        for y in range(9):
+            if(len(matrix[x][y].value)>1):
+                for i in range(9):
+                    currentCell = matrix[x][i]
+                    if(len(currentCell.value) == 1):
+                        matrix[x][y].value -= currentCell.value
+                        if(len(matrix[x][y].value) ==1):
+                            # print(x, y, "changed to", matrix[x][y].value)
+                            return (matrix, False)
+                for j in range(9):
+                    currentCell = matrix[j][y]
+                    if(len(currentCell.value) == 1):
+                        matrix[x][y].value -= currentCell.value
+                        if(len(matrix[x][y].value) ==1):
+                            # print(x, y, "changed to", matrix[x][y].value)
+                            return (matrix, False)
+    return (matrix, True)
+
+
 def main():
     matrix = createTheSudokuBoard();
+    printMatrix(matrix)
+    matrix = checkRowsAndColumns(matrix);
     printMatrix(matrix)
     
 if __name__ == '__main__':
