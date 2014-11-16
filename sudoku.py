@@ -50,7 +50,7 @@ def createTheSudokuBoard():
     # ]
     M = []
     # string = "4815.967.3..816..25..7.3..82.......99.......18.......4.3927548.6.....9277.....31."
-    string = "9.42....7.1..........7.65.....8...9..2.9.4.6..4...2.....16.7..........3.3....57.2"
+    string = "3..2........1.7...7.6.3.5...7...9.8.9...2...4.1.8...5...9.4.3.1...7.2........8..6"
     string = string.replace(".", "0")
     for x in range(9):
         row = []
@@ -109,7 +109,7 @@ def checkUniques(matrix):
         if(condition == True):
             return matrix;
         else:
-            matrix = checkBlocks(matrix)
+            matrix = reduceMatrix(matrix)
 
 
 def checkUniquesHelper(matrix):
@@ -127,7 +127,7 @@ def checkUniquesHelper(matrix):
             if(frequencyMap[x] == 1):
                 for cell in currentRow:
                     if(x in cell.value and len(cell.value) > 1):
-                        print()
+                        print("Row Reduce", "---------")
                         print("OLD", "--------")
                         print(cell.value)
                         cell.value= {x}
@@ -149,14 +149,38 @@ def checkUniquesHelper(matrix):
             if(frequencyMap[x] == 1):
                 for cell in currentCol:
                     if(x in cell.value and len(cell.value) > 1):
-                        print()
+                        print("Col Reduce", "---------")
                         print("OLD", "--------")
                         print(cell.value)
                         cell.value= {x}
                         print("NEW", "--------")
                         print(cell.value)
                         print()
-                        return (matrix, False)             
+                        return (matrix, False)  
+    blocks = getBlocks(matrix)    
+    for z in range(9):
+        currentBlock = blocks[z]
+        frequencyMap = {}
+        for cell in currentBlock:
+            if(len(cell.value) > 1):
+                for value in cell.value:
+                    if(value in frequencyMap):
+                        frequencyMap[value] = frequencyMap[value]+1
+                    else:
+                        frequencyMap[value] = 1
+        for x in frequencyMap:
+            if(frequencyMap[x] == 1):
+                for cell in currentBlock:
+                    if(x in cell.value and len(cell.value) > 1):
+                        print("Block Reduce", "---------")
+                        print("OLD", "--------")
+                        print(cell.value)
+                        cell.value= {x}
+                        print("NEW", "--------")
+                        print(cell.value)
+                        print()
+                        return (matrix, False)
+
     return (matrix, True)
                         
 
