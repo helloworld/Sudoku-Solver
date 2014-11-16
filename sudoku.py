@@ -92,14 +92,14 @@ def checkRowsAndColumnsHelper(matrix):
                     if(len(currentCell.value) == 1):
                         matrix[x][y].value -= currentCell.value
                         if(len(matrix[x][y].value) ==1):
-                            # print(x, y, "changed to", matrix[x][y].value)
+                            printChange(matrix[x][y], "checkRow")
                             return (matrix, False)
                 for j in range(9):
                     currentCell = matrix[j][y]
                     if(len(currentCell.value) == 1):
                         matrix[x][y].value -= currentCell.value
                         if(len(matrix[x][y].value) ==1):
-                            # print(x, y, "changed to", matrix[x][y].value)
+                            printChange(matrix[x][y], "checkColumn")
                             return (matrix, False)
     return (matrix, True)
 
@@ -109,7 +109,7 @@ def checkUniques(matrix):
         if(condition == True):
             return matrix;
         else:
-            matrix = reduceMatrix(matrix)
+            matrix = checkBlocks(matrix)
 
 
 def checkUniquesHelper(matrix):
@@ -127,13 +127,8 @@ def checkUniquesHelper(matrix):
             if(frequencyMap[x] == 1):
                 for cell in currentRow:
                     if(x in cell.value and len(cell.value) > 1):
-                        print("Row Reduce", "---------")
-                        print("OLD", "--------")
-                        print(cell.value)
                         cell.value= {x}
-                        print("NEW", "--------")
-                        print(cell.value)
-                        print()
+                        printChange(cell, "uniqueRow")
                         return (matrix, False)
     for y in range(9):
         currentCol = [row[y] for row in matrix]
@@ -149,13 +144,8 @@ def checkUniquesHelper(matrix):
             if(frequencyMap[x] == 1):
                 for cell in currentCol:
                     if(x in cell.value and len(cell.value) > 1):
-                        print("Col Reduce", "---------")
-                        print("OLD", "--------")
-                        print(cell.value)
                         cell.value= {x}
-                        print("NEW", "--------")
-                        print(cell.value)
-                        print()
+                        printChange(cell, "uniqueColumn")
                         return (matrix, False)  
     blocks = getBlocks(matrix)    
     for z in range(9):
@@ -172,13 +162,8 @@ def checkUniquesHelper(matrix):
             if(frequencyMap[x] == 1):
                 for cell in currentBlock:
                     if(x in cell.value and len(cell.value) > 1):
-                        print("Block Reduce", "---------")
-                        print("OLD", "--------")
-                        print(cell.value)
                         cell.value= {x}
-                        print("NEW", "--------")
-                        print(cell.value)
-                        print()
+                        printChange(cell, "uniqueBlock")  
                         return (matrix, False)
 
     return (matrix, True)
@@ -213,7 +198,7 @@ def checkBlocksHelper(matrix):
                     if(len(currentCell.value) ==1):
                         matrix[x][y].value -= currentCell.value
                     if(len(matrix[x][y].value) ==1):
-                        # print(x, y, "changed to", matrix[x][y].value)
+                        printChange(matrix[x][y], "checkBlocks")
                         return (matrix, False)
     return (matrix, True)
 
@@ -239,11 +224,13 @@ def reduceMatrix(matrix):
     matrix = checkBlocks(matrix)
     return matrix   
 
+def printChange(cell, method):
+    print(method, "Cell", cell.row, cell.col, "has changed to: ", cell.value)
+
 def main():
     matrix = createTheSudokuBoard();
     printMatrix(matrix)
     matrix = reduceMatrix(matrix)
-    printMatrix(matrix)
     matrix = checkUniques(matrix)
     printMatrix(matrix)
 
