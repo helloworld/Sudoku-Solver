@@ -63,6 +63,7 @@ def printMatrix(matrix):
         for y in x:
             print(y, end=" ")
     print()
+    numberOfEmptySells(matrix)
     print()
 
 def checkRowsAndColumns(matrix):
@@ -105,6 +106,9 @@ def checkBlocks(matrix):
         (matrix, condition) = checkBlocksHelper(matrix)
         if(condition == True):
             return matrix;
+        else:
+            matrix = checkRowsAndColumns(matrix)
+
 
 def checkBlocksHelper(matrix):
     blocks = getBlocks(matrix)
@@ -136,12 +140,15 @@ def numberOfEmptySells(matrix):
                 count+=1
     else:
         print("Number of Empty Cells:", count)
+
+def reduceMatrix(matrix):
+    matrix = checkRowsAndColumns(matrix)
+    matrix = checkBlocks(matrix)
+    return matrix
+
 def main():
     matrix = createTheSudokuBoard();
-    printMatrix(matrix)
-    matrix = checkRowsAndColumns(matrix);
-    printMatrix(matrix)
-    matrix = checkBlocks(matrix)
+    matrix = reduceMatrix(matrix)
     printMatrix(matrix)
 
     print("All Cells Have Values:", allCellsHaveValues(matrix))
