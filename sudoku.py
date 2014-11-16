@@ -299,6 +299,17 @@ def solutionIsCorrect(matrix):
     return True
 
 
+def cellWithSmallestSet(matrix):
+    minSet = float("inf")
+    minCords = ()
+    for x in range(9):
+        for y in range(9):
+            if(len(matrix[x][y].value)>1):
+                if(len(matrix[x][y].value) < minSet):
+                    minSet = len(matrix[x][y].value)
+                    minCords = (x,y)
+    return minCords
+    
 def main():
     matrix = createTheSudokuBoard()
     printMatrix(matrix)
