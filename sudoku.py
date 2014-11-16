@@ -74,7 +74,7 @@ def printMatrix(matrix):
         for y in x:
             print(y, end=" ")
     print()
-    numberOfEmptySells(matrix)
+    print("Number of Empty Cells:", numberOfEmptySells(matrix))
     print()
 
 def checkRowsAndColumns(matrix):
@@ -216,16 +216,17 @@ def numberOfEmptySells(matrix):
         for y in range(9):
             if(len(matrix[x][y].value) > 1):
                 count+=1
-    else:
-        print("Number of Empty Cells:", count)
+    return count
 
 def reduceMatrix(matrix):
     matrix = checkRowsAndColumns(matrix)
     matrix = checkBlocks(matrix)
     return matrix   
 
+
 def printChange(cell, method):
-    print(method, "Cell", cell.row, cell.col, "has changed to: ", cell.value)
+    print("%s \t| Cell (%s,%s) =>| %s" %(method, cell.row, cell.col, cell.value))
+
 def duplicatesExist(thelist):
   seen = set()
   for x in thelist:
@@ -263,6 +264,7 @@ def solutionIsPossible(matrix):
             print("Duplicate in Block", b, {value})
             return False
     return True
+
 def solutionIsCorrect(matrix):
     rows = [[],[],[], [],[],[], [],[],[],]
     cols = [[],[],[], [],[],[], [],[],[],]
@@ -300,6 +302,11 @@ def main():
     matrix = checkUniques(matrix)
     printMatrix(matrix)
 
+    print("-------CHECKS--------")
+    if(numberOfEmptySells(matrix) == 0):
+        print("SolutionCheck:", solutionIsCorrect(matrix))
+    else:
+        print("No Duplicates:", solutionIsPossible(matrix))
 
     print("All Cells Have Values:", allCellsHaveValues(matrix))
     
