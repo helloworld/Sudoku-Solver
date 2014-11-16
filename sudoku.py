@@ -91,6 +91,13 @@ def checkRowsAndColumnsHelper(matrix):
     return (matrix, True)
 
 
+def getBlocks(matrix):
+    block = [[],[],[], [],[],[], [],[],[],]
+    for x in range(9):
+        for y in range(9):
+            currentBlock = blockNumber(x,y)
+            block[currentBlock].append(matrix[x][y].value)
+
 def main():
     matrix = createTheSudokuBoard();
     printMatrix(matrix)
