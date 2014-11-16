@@ -226,6 +226,35 @@ def reduceMatrix(matrix):
 
 def printChange(cell, method):
     print(method, "Cell", cell.row, cell.col, "has changed to: ", cell.value)
+def solutionIsCorrect(matrix):
+    rows = [[],[],[], [],[],[], [],[],[],]
+    cols = [[],[],[], [],[],[], [],[],[],]
+    block = getBlocks(matrix)
+
+    for r in range(9):
+        for c in range(9):
+            rows[r].append(matrix[r][c].value)
+            cols[c].append(matrix[r][c].value)
+            block[r][c] = block[r][c].value   
+
+    for r in rows:
+        for n in range(1, 9+1):
+            if {n} not in r:
+                print("Missing in Rows", r, {n})
+                return False
+
+    for c in cols:
+        for n in range(1, 9+1):
+            if {n} not in c:
+                print("Missing in Column", c, {n})
+                return False
+
+    for b in block:
+        for n in range(1, 9+1):
+            if {n} not in b:
+                print("Missing in Block", b,  "is", {n})
+                return False
+    return True
 
 def main():
     matrix = createTheSudokuBoard();
