@@ -226,6 +226,43 @@ def reduceMatrix(matrix):
 
 def printChange(cell, method):
     print(method, "Cell", cell.row, cell.col, "has changed to: ", cell.value)
+def duplicatesExist(thelist):
+  seen = set()
+  for x in thelist:
+    if(len(x)==1):
+        (element,) = x
+        x = element
+        if x in seen: return (True, x)
+        seen.add(x)
+  return (False, 0)
+
+def solutionIsPossible(matrix):
+    rows = [[],[],[], [],[],[], [],[],[],]
+    cols = [[],[],[], [],[],[], [],[],[],]
+    block = getBlocks(matrix)
+
+    for r in range(9):
+        for c in range(9):
+            rows[r].append(matrix[r][c].value)
+            cols[c].append(matrix[r][c].value)
+            block[r][c] = block[r][c].value   
+
+    for r in rows:
+        (condition, value) = duplicatesExist(r)
+        if condition:
+            print("Duplicate in Row", r, {value})
+            return False
+    for c in cols:
+        (condition, value) = duplicatesExist(c)
+        if condition:
+            print("Duplicate in Column", c, {value})
+            return False
+    for b in block:
+        (condition, value) = duplicatesExist(b)
+        if condition:
+            print("Duplicate in Block", b, {value})
+            return False
+    return True
 def solutionIsCorrect(matrix):
     rows = [[],[],[], [],[],[], [],[],[],]
     cols = [[],[],[], [],[],[], [],[],[],]
