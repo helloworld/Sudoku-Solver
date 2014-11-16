@@ -167,7 +167,7 @@ def getBlocks(matrix):
     for x in range(9):
         for y in range(9):
             currentBlock = blockNumber(x,y)
-            block[currentBlock].append(matrix[x][y].value)
+            block[currentBlock].append(matrix[x][y])
     return block
 
 def checkBlocks(matrix):
@@ -186,8 +186,8 @@ def checkBlocksHelper(matrix):
             if(len(matrix[x][y].value)>1):
                 currentBlock = blockNumber(x,y)
                 for currentCell in blocks[currentBlock]:
-                    if(len(currentCell) ==1):
-                        matrix[x][y].value -= currentCell
+                    if(len(currentCell.value) ==1):
+                        matrix[x][y].value -= currentCell.value
                     if(len(matrix[x][y].value) ==1):
                         # print(x, y, "changed to", matrix[x][y].value)
                         return (matrix, False)
