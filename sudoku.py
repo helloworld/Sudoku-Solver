@@ -9,7 +9,13 @@ class Cell(object):
         self.col = c
         self.block = blockNumber(r, c)
         self.matrix = matrix
-        
+    def __str__(self):
+        if (len(self.value) > 1):
+            return '0'
+        else:
+            element = min(self.value)
+            return str(element)
+
 def blockNumber(row, col):
     if row < 3 and col < 3:
         return 0
@@ -50,9 +56,17 @@ def createTheSudokuBoard():
         matrix.append(row);
     return matrix
 
+def printMatrix(matrix):
+    print()
+    for x in matrix:
+        print()
+        for y in x:
+            print(y, end=" ")
+    print()
+
 def main():
     matrix = createTheSudokuBoard();
-    print(matrix)
+    printMatrix(matrix)
     
 if __name__ == '__main__':
     main()
