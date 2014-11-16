@@ -103,6 +103,49 @@ def checkRowsAndColumnsHelper(matrix):
                             return (matrix, False)
     return (matrix, True)
 
+def checkUniques(matrix):
+    for x in range(9):
+        currentRow = matrix[x]
+        frequencyMap = {}
+        for cell in currentRow:
+            if(len(cell.value) > 1):
+                for value in cell.value:
+                    if(value in frequencyMap):
+                        frequencyMap[value] = frequencyMap[value]+1
+                    else:
+                        frequencyMap[value] = 1
+        for x in frequencyMap:
+            if(frequencyMap[x] == 1):
+                for cell in currentRow:
+                    if(x in cell.value):
+                        cell.value= {x}
+                        return (matrix, False)
+    for y in range(9):
+        currentCol = [row[y] for row in matrix]
+        frequencyMap = {}
+        for cell in currentCol:
+            if(len(cell.value) > 1):
+                print(cell.value)
+                for value in cell.value:
+                    if(value in frequencyMap):
+                        frequencyMap[value] = frequencyMap[value]+1
+                    else:
+                        frequencyMap[value] = 1
+        for x in frequencyMap:
+            if(frequencyMap[x] == 1):
+                for cell in currentCol:
+                    if(x in cell.value):
+                        cell.value= {x}
+                        return (matrix, False)
+    return (matrix, True)
+                        
+
+
+
+
+
+
+
 
 def getBlocks(matrix):
     block = [[],[],[], [],[],[], [],[],[],]
@@ -155,12 +198,14 @@ def numberOfEmptySells(matrix):
 def reduceMatrix(matrix):
     matrix = checkRowsAndColumns(matrix)
     matrix = checkBlocks(matrix)
-    return matrix
+    return matrix   
 
 def main():
     matrix = createTheSudokuBoard();
+    printMatrix(matrix)
     matrix = reduceMatrix(matrix)
     printMatrix(matrix)
+    checkUniques(matrix)
 
     print("All Cells Have Values:", allCellsHaveValues(matrix))
     
