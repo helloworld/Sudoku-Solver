@@ -50,7 +50,7 @@ def createTheSudokuBoard():
     # ]
     M = []
     # string = "4815.967.3..816..25..7.3..82.......99.......18.......4.3927548.6.....9277.....31."
-    string = ".8.....4....469...4.......7..59.46...7.6.8.3...85.21..9.......5...781....6.....1."
+    string = "9.42....7.1..........7.65.....8...9..2.9.4.6..4...2.....16.7..........3.3....57.2"
     string = string.replace(".", "0")
     for x in range(9):
         row = []
@@ -104,6 +104,15 @@ def checkRowsAndColumnsHelper(matrix):
     return (matrix, True)
 
 def checkUniques(matrix):
+    while True:
+        (matrix, condition) = checkUniquesHelper(matrix)
+        if(condition == True):
+            return matrix;
+        else:
+            matrix = checkBlocks(matrix)
+
+
+def checkUniquesHelper(matrix):
     for x in range(9):
         currentRow = matrix[x]
         frequencyMap = {}
@@ -117,15 +126,20 @@ def checkUniques(matrix):
         for x in frequencyMap:
             if(frequencyMap[x] == 1):
                 for cell in currentRow:
-                    if(x in cell.value):
+                    if(x in cell.value and len(cell.value) > 1):
+                        print()
+                        print("OLD", "--------")
+                        print(cell.value)
                         cell.value= {x}
+                        print("NEW", "--------")
+                        print(cell.value)
+                        print()
                         return (matrix, False)
     for y in range(9):
         currentCol = [row[y] for row in matrix]
         frequencyMap = {}
         for cell in currentCol:
             if(len(cell.value) > 1):
-                print(cell.value)
                 for value in cell.value:
                     if(value in frequencyMap):
                         frequencyMap[value] = frequencyMap[value]+1
@@ -134,16 +148,17 @@ def checkUniques(matrix):
         for x in frequencyMap:
             if(frequencyMap[x] == 1):
                 for cell in currentCol:
-                    if(x in cell.value):
+                    if(x in cell.value and len(cell.value) > 1):
+                        print()
+                        print("OLD", "--------")
+                        print(cell.value)
                         cell.value= {x}
-                        return (matrix, False)
+                        print("NEW", "--------")
+                        print(cell.value)
+                        print()
+                        return (matrix, False)             
     return (matrix, True)
                         
-
-
-
-
-
 
 
 
@@ -205,7 +220,9 @@ def main():
     printMatrix(matrix)
     matrix = reduceMatrix(matrix)
     printMatrix(matrix)
-    checkUniques(matrix)
+    matrix = checkUniques(matrix)
+    printMatrix(matrix)
+
 
     print("All Cells Have Values:", allCellsHaveValues(matrix))
     
