@@ -97,11 +97,35 @@ def getBlocks(matrix):
         for y in range(9):
             currentBlock = blockNumber(x,y)
             block[currentBlock].append(matrix[x][y].value)
+    return block
+
+def checkBlocks(matrix):
+    while True:
+        (matrix, condition) = checkBlocksHelper(matrix)
+        if(condition == True):
+            return matrix;
+
+def checkBlocksHelper(matrix):
+    blocks = getBlocks(matrix)
+    for x in range(9):
+        for y in range(9):
+            if(len(matrix[x][y].value)>1):
+                currentBlock = blockNumber(x,y)
+                for currentCell in blocks[currentBlock]:
+                    if(len(currentCell) ==1):
+                        matrix[x][y].value -= currentCell
+                    if(len(matrix[x][y].value) ==1):
+                        # print(x, y, "changed to", matrix[x][y].value)
+                        return (matrix, False)
+
+    return (matrix, True)
 
 def main():
     matrix = createTheSudokuBoard();
     printMatrix(matrix)
     matrix = checkRowsAndColumns(matrix);
+    printMatrix(matrix)
+    matrix = checkBlocks(matrix)
     printMatrix(matrix)
     
 if __name__ == '__main__':
