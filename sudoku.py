@@ -1,5 +1,7 @@
 class Cell(object):
+
     """Individual Cells in the Matrix"""
+
     def __init__(self, val, r, c, matrix):
         if (val != 0):
             self.value = {val, }
@@ -8,13 +10,15 @@ class Cell(object):
         self.row = r
         self.col = c
         self.block = blockNumber(r, c)
-        self.matrix = matrix
+        Cell.matrix = matrix
+
     def __str__(self):
         if (len(self.value) > 1):
             return '0'
         else:
             element = min(self.value)
             return str(element)
+
 
 def blockNumber(row, col):
     if row < 3 and col < 3:
@@ -36,20 +40,9 @@ def blockNumber(row, col):
     if row > 5 and 5 < col:
         return 8
 
+
 def createTheSudokuBoard():
-    # M = [
-    #     [4, 8, 1, 5, 0, 9, 6, 7, 0, ],
-    #     [3, 0, 0, 8, 1, 6, 0, 0, 2, ],
-    #     [5, 0, 0, 7, 0, 3, 0, 0, 8, ],
-    #     [2, 0, 0, 0, 0, 0, 0, 0, 9, ],
-    #     [9, 0, 0, 0, 0, 0, 0, 0, 1, ],
-    #     [8, 0, 0, 0, 0, 0, 0, 0, 4, ],
-    #     [0, 3, 9, 2, 7, 5, 4, 8, 0, ],
-    #     [6, 0, 0, 0, 0, 0, 9, 2, 7, ],
-    #     [7, 0, 0, 0, 0, 0, 3, 1, 0, ]
-    # ]
     M = []
-    # string = "4815.967.3..816..25..7.3..82.......99.......18.......4.3927548.6.....9277.....31."
     string = "..1..7.9.59..8...1.3.....8......58...5..6..2...41......8.....3.1...2..79.2.7..4.."
     string = string.replace(".", "0")
     for x in range(9):
@@ -58,14 +51,14 @@ def createTheSudokuBoard():
             row.append(int(string[0]))
             string = string[1:]
         M.append(row)
-
     matrix = []
     for r in range(9):
         row = []
         for c in range(9):
             row.append(Cell(M[r][c], r, c, matrix))
-        matrix.append(row);
+        matrix.append(row)
     return matrix
+
 
 def printMatrix(matrix):
     print()
@@ -77,37 +70,40 @@ def printMatrix(matrix):
     print("Number of Empty Cells:", numberOfEmptySells(matrix))
     print()
 
+
 def checkRowsAndColumns(matrix):
     while True:
         (matrix, condition) = checkRowsAndColumnsHelper(matrix)
         if(condition == True):
-            return matrix;
+            return matrix
+
 
 def checkRowsAndColumnsHelper(matrix):
     for x in range(9):
         for y in range(9):
-            if(len(matrix[x][y].value)>1):
+            if(len(matrix[x][y].value) > 1):
                 for i in range(9):
                     currentCell = matrix[x][i]
                     if(len(currentCell.value) == 1):
                         matrix[x][y].value -= currentCell.value
-                        if(len(matrix[x][y].value) ==1):
+                        if(len(matrix[x][y].value) == 1):
                             printChange(matrix[x][y], "checkRow")
                             return (matrix, False)
                 for j in range(9):
                     currentCell = matrix[j][y]
                     if(len(currentCell.value) == 1):
                         matrix[x][y].value -= currentCell.value
-                        if(len(matrix[x][y].value) ==1):
+                        if(len(matrix[x][y].value) == 1):
                             printChange(matrix[x][y], "checkColumn")
                             return (matrix, False)
     return (matrix, True)
+
 
 def checkUniques(matrix):
     while True:
         (matrix, condition) = checkUniquesHelper(matrix)
         if(condition == True):
-            return matrix;
+            return matrix
         else:
             matrix = reduceMatrix(matrix)
 
@@ -120,14 +116,14 @@ def checkUniquesHelper(matrix):
             if(len(cell.value) > 1):
                 for value in cell.value:
                     if(value in frequencyMap):
-                        frequencyMap[value] = frequencyMap[value]+1
+                        frequencyMap[value] = frequencyMap[value] + 1
                     else:
                         frequencyMap[value] = 1
         for x in frequencyMap:
             if(frequencyMap[x] == 1):
                 for cell in currentRow:
                     if(x in cell.value and len(cell.value) > 1):
-                        cell.value= {x}
+                        cell.value = {x}
                         printChange(cell, "uniqueRow")
                         return (matrix, False)
     for y in range(9):
@@ -137,17 +133,17 @@ def checkUniquesHelper(matrix):
             if(len(cell.value) > 1):
                 for value in cell.value:
                     if(value in frequencyMap):
-                        frequencyMap[value] = frequencyMap[value]+1
+                        frequencyMap[value] = frequencyMap[value] + 1
                     else:
                         frequencyMap[value] = 1
         for x in frequencyMap:
             if(frequencyMap[x] == 1):
                 for cell in currentCol:
                     if(x in cell.value and len(cell.value) > 1):
-                        cell.value= {x}
+                        cell.value = {x}
                         printChange(cell, "uniqueColumn")
-                        return (matrix, False)  
-    blocks = getBlocks(matrix)    
+                        return (matrix, False)
+    blocks = getBlocks(matrix)
     for z in range(9):
         currentBlock = blocks[z]
         frequencyMap = {}
@@ -155,35 +151,34 @@ def checkUniquesHelper(matrix):
             if(len(cell.value) > 1):
                 for value in cell.value:
                     if(value in frequencyMap):
-                        frequencyMap[value] = frequencyMap[value]+1
+                        frequencyMap[value] = frequencyMap[value] + 1
                     else:
                         frequencyMap[value] = 1
         for x in frequencyMap:
             if(frequencyMap[x] == 1):
                 for cell in currentBlock:
                     if(x in cell.value and len(cell.value) > 1):
-                        cell.value= {x}
-                        printChange(cell, "uniqueBlock")  
+                        cell.value = {x}
+                        printChange(cell, "uniqueBlock")
                         return (matrix, False)
 
     return (matrix, True)
-                        
-
 
 
 def getBlocks(matrix):
-    block = [[],[],[], [],[],[], [],[],[],]
+    block = [[], [], [], [], [], [], [], [], [], ]
     for x in range(9):
         for y in range(9):
-            currentBlock = blockNumber(x,y)
+            currentBlock = blockNumber(x, y)
             block[currentBlock].append(matrix[x][y])
     return block
+
 
 def checkBlocks(matrix):
     while True:
         (matrix, condition) = checkBlocksHelper(matrix)
         if(condition == True):
-            return matrix;
+            return matrix
         else:
             matrix = checkRowsAndColumns(matrix)
 
@@ -192,15 +187,16 @@ def checkBlocksHelper(matrix):
     blocks = getBlocks(matrix)
     for x in range(9):
         for y in range(9):
-            if(len(matrix[x][y].value)>1):
-                currentBlock = blockNumber(x,y)
+            if(len(matrix[x][y].value) > 1):
+                currentBlock = blockNumber(x, y)
                 for currentCell in blocks[currentBlock]:
-                    if(len(currentCell.value) ==1):
+                    if(len(currentCell.value) == 1):
                         matrix[x][y].value -= currentCell.value
-                    if(len(matrix[x][y].value) ==1):
+                    if(len(matrix[x][y].value) == 1):
                         printChange(matrix[x][y], "checkBlocks")
                         return (matrix, False)
     return (matrix, True)
+
 
 def allCellsHaveValues(matrix):
     for x in range(9):
@@ -210,43 +206,49 @@ def allCellsHaveValues(matrix):
     else:
         return True
 
+
 def numberOfEmptySells(matrix):
     count = 0
     for x in range(9):
         for y in range(9):
             if(len(matrix[x][y].value) > 1):
-                count+=1
+                count += 1
     return count
+
 
 def reduceMatrix(matrix):
     matrix = checkRowsAndColumns(matrix)
     matrix = checkBlocks(matrix)
-    return matrix   
+    return matrix
 
 
 def printChange(cell, method):
-    print("%s \t| Cell (%s,%s) =>| %s" %(method, cell.row, cell.col, cell.value))
+    print("%s \t| Cell (%s,%s) =>| %s" %
+          (method, cell.row, cell.col, cell.value))
+
 
 def duplicatesExist(thelist):
-  seen = set()
-  for x in thelist:
-    if(len(x)==1):
-        (element,) = x
-        x = element
-        if x in seen: return (True, x)
-        seen.add(x)
-  return (False, 0)
+    seen = set()
+    for x in thelist:
+        if(len(x) == 1):
+            (element,) = x
+            x = element
+            if x in seen:
+                return (True, x)
+            seen.add(x)
+    return (False, 0)
+
 
 def solutionIsPossible(matrix):
-    rows = [[],[],[], [],[],[], [],[],[],]
-    cols = [[],[],[], [],[],[], [],[],[],]
+    rows = [[], [], [], [], [], [], [], [], [], ]
+    cols = [[], [], [], [], [], [], [], [], [], ]
     block = getBlocks(matrix)
 
     for r in range(9):
         for c in range(9):
             rows[r].append(matrix[r][c].value)
             cols[c].append(matrix[r][c].value)
-            block[r][c] = block[r][c].value   
+            block[r][c] = block[r][c].value
 
     for r in rows:
         (condition, value) = duplicatesExist(r)
@@ -265,38 +267,40 @@ def solutionIsPossible(matrix):
             return False
     return True
 
+
 def solutionIsCorrect(matrix):
-    rows = [[],[],[], [],[],[], [],[],[],]
-    cols = [[],[],[], [],[],[], [],[],[],]
+    rows = [[], [], [], [], [], [], [], [], [], ]
+    cols = [[], [], [], [], [], [], [], [], [], ]
     block = getBlocks(matrix)
 
     for r in range(9):
         for c in range(9):
             rows[r].append(matrix[r][c].value)
             cols[c].append(matrix[r][c].value)
-            block[r][c] = block[r][c].value   
+            block[r][c] = block[r][c].value
 
     for r in rows:
-        for n in range(1, 9+1):
+        for n in range(1, 9 + 1):
             if {n} not in r:
                 print("Missing in Rows", r, {n})
                 return False
 
     for c in cols:
-        for n in range(1, 9+1):
+        for n in range(1, 9 + 1):
             if {n} not in c:
                 print("Missing in Column", c, {n})
                 return False
 
     for b in block:
-        for n in range(1, 9+1):
+        for n in range(1, 9 + 1):
             if {n} not in b:
                 print("Missing in Block", b,  "is", {n})
                 return False
     return True
 
+
 def main():
-    matrix = createTheSudokuBoard();
+    matrix = createTheSudokuBoard()
     printMatrix(matrix)
     matrix = reduceMatrix(matrix)
     matrix = checkUniques(matrix)
@@ -309,6 +313,6 @@ def main():
         print("No Duplicates:", solutionIsPossible(matrix))
 
     print("All Cells Have Values:", allCellsHaveValues(matrix))
-    
+
 if __name__ == '__main__':
     main()
