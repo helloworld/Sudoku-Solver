@@ -334,6 +334,9 @@ def main():
     matrix = reduceMatrix(matrix)
     matrix = checkUniques(matrix)
     printMatrix(matrix)
+    matrix = recursiveSolve(matrix)
+    printMatrix(matrix)
+
 
     print("-------CHECKS--------")
     if(numberOfEmptySells(matrix) == 0):
@@ -344,4 +347,6 @@ def main():
     print("All Cells Have Values:", allCellsHaveValues(matrix))
 
 if __name__ == '__main__':
+    import sys
+    from copy import deepcopy
     main()
