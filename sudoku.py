@@ -225,6 +225,13 @@ def reduceMatrix(matrix):
 def printChange(cell, method):
     print("%s \t| Cell (%s,%s) =>| %s" %
           (method, cell.row, cell.col, cell.value))
+    # if(numberOfEmptySells(cell.matrix) == 0 and solutionIsCorrect(cell.matrix)):
+    #     finished(cell.matrix)
+    printMatrix(cell.matrix)
+    print("No Duplicates:", solutionIsPossible(cell.matrix))
+    print("All Cells Have Values:", allCellsHaveValues(cell.matrix))
+    print("Number of empty cells", numberOfEmptySells(cell.matrix))
+    print('---------------------------------------------------')
 
 
 def duplicatesExist(thelist):
