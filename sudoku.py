@@ -43,7 +43,10 @@ def blockNumber(row, col):
 
 def createTheSudokuBoard():
     M = []
-    string = "8..........36......7..9.2...5...7.......457.....1...3...1....68..85...1..9....4.."
+    string = "...5...........5.697.....2...48.2...25.1...3..8..3.........4.7..13.5..9..2...31.."
+    input_var = input("Enter sudoku (0 for default) ")
+    if(input_var != "0"):
+        string = input_var
     string = string.replace(".", "0")
     for x in range(9):
         row = []
@@ -351,7 +354,6 @@ def main():
     printMatrix(matrix)
     matrix = reduceMatrix(matrix)
     matrix = checkUniques(matrix)
-    printMatrix(matrix)
     matrix = recursiveSolve(matrix)
     printMatrix(matrix)
 
