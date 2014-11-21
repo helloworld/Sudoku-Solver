@@ -226,6 +226,7 @@ def printChange(cell, method):
     print("\t %s \t| Cell (%s,%s) =>| %s" %
           (method, cell.row, cell.col, cell.value))
 
+
 def duplicatesExist(thelist):
     seen = set()
     for x in thelist:
@@ -300,12 +301,13 @@ def solutionIsCorrect(matrix):
                 return False
     return True
 
+
 def recursiveSolve(matrix):
     matrix = reduceMatrix(matrix)
     oldMatrix = deepcopy(matrix)
     if(solutionIsCorrect(matrix)):
         return matrix
-    if( (not allCellsHaveValues(matrix)) or (not solutionIsPossible(matrix))):
+    if((not allCellsHaveValues(matrix)) or (not solutionIsPossible(matrix))):
         return matrix
     print("Entering Recursive solve")
     (r, c) = cellWithSmallestSet(matrix)
@@ -321,6 +323,7 @@ def recursiveSolve(matrix):
         matrix = restoreValues(matrix, oldMatrix)
     return matrix
 
+
 def restoreValues(matrix, oldMatrix):
     for x in range(9):
         for y in range(9):
@@ -333,14 +336,15 @@ def cellWithSmallestSet(matrix):
     found = False
     for x in range(9):
         for y in range(9):
-            if(len(matrix[x][y].value)>1):
+            if(len(matrix[x][y].value) > 1):
                 if(len(matrix[x][y].value) < minSet):
                     minSet = len(matrix[x][y].value)
                     print("Making guess at", x, y)
-                    minCords = (x,y)
+                    minCords = (x, y)
                     found = True
     if found:
         return minCords
+
 
 def main():
     matrix = createTheSudokuBoard()
@@ -350,7 +354,6 @@ def main():
     printMatrix(matrix)
     matrix = recursiveSolve(matrix)
     printMatrix(matrix)
-
 
     print("-------CHECKS--------")
     if(numberOfEmptySells(matrix) == 0):
