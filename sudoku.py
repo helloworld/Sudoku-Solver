@@ -308,6 +308,36 @@ def solutionIsCorrect(matrix):
                 return False
     return True
 
+def recursiveSolve(matrix):
+    matrix = reduceMatrix(matrix)
+    oldMatrix = deepcopy(matrix)
+    if(solutionIsCorrect(matrix)):
+        return matrix
+    if( (not allCellsHaveValues(matrix)) or (not solutionIsPossible(matrix))):
+        return matrix
+    print("##############################################")
+    print("Entering Recursive solve", "-----------------")
+    print("##############################################")
+    (r, c) = cellWithSmallestSet(matrix)
+    for guess in matrix[r][c].value:
+        matrix[r][c].value = {guess}
+        print("just made guess")
+        matrix = recursiveSolve(matrix)
+        print("came back from guess")
+        if(solutionIsCorrect(matrix)):
+            return matrix
+        else:
+            print("Bad Guess")
+        matrix = restoreValues(matrix, oldMatrix)
+    return matrix
+
+def restoreValues(matrix, oldMatrix):
+    print("RESETTING MATRIX")
+    for x in range(9):
+        for y in range(9):
+            matrix[x][y].value = oldMatrix[x][y].value
+    return matrix
+
 
 def cellWithSmallestSet(matrix):
     minSet = float("inf")
