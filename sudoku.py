@@ -223,16 +223,8 @@ def reduceMatrix(matrix):
 
 
 def printChange(cell, method):
-    print("%s \t| Cell (%s,%s) =>| %s" %
+    print("\t %s \t| Cell (%s,%s) =>| %s" %
           (method, cell.row, cell.col, cell.value))
-    # if(numberOfEmptySells(cell.matrix) == 0 and solutionIsCorrect(cell.matrix)):
-    #     finished(cell.matrix)
-    printMatrix(cell.matrix)
-    print("No Duplicates:", solutionIsPossible(cell.matrix))
-    print("All Cells Have Values:", allCellsHaveValues(cell.matrix))
-    print("Number of empty cells", numberOfEmptySells(cell.matrix))
-    print('---------------------------------------------------')
-
 
 def duplicatesExist(thelist):
     seen = set()
@@ -292,19 +284,19 @@ def solutionIsCorrect(matrix):
     for r in rows:
         for n in range(1, 9 + 1):
             if {n} not in r:
-                print("Missing in Rows", r, {n})
+                print("Error: Missing in Rows", r, {n})
                 return False
 
     for c in cols:
         for n in range(1, 9 + 1):
             if {n} not in c:
-                print("Missing in Column", c, {n})
+                print("Error: Missing in Column", c, {n})
                 return False
 
     for b in block:
         for n in range(1, 9 + 1):
             if {n} not in b:
-                print("Missing in Block", b,  "is", {n})
+                print("Error: Missing in Block", b,  "is", {n})
                 return False
     return True
 
@@ -315,24 +307,21 @@ def recursiveSolve(matrix):
         return matrix
     if( (not allCellsHaveValues(matrix)) or (not solutionIsPossible(matrix))):
         return matrix
-    print("##############################################")
-    print("Entering Recursive solve", "-----------------")
-    print("##############################################")
+    print("Entering Recursive solve")
     (r, c) = cellWithSmallestSet(matrix)
     for guess in matrix[r][c].value:
         matrix[r][c].value = {guess}
-        print("just made guess")
         matrix = recursiveSolve(matrix)
-        print("came back from guess")
+        print("Return from Recursion")
         if(solutionIsCorrect(matrix)):
+            print("Good Guess. Returning Matrix")
             return matrix
         else:
-            print("Bad Guess")
+            print("Bad Guess. Resetting Matrix")
         matrix = restoreValues(matrix, oldMatrix)
     return matrix
 
 def restoreValues(matrix, oldMatrix):
-    print("RESETTING MATRIX")
     for x in range(9):
         for y in range(9):
             matrix[x][y].value = oldMatrix[x][y].value
@@ -352,11 +341,6 @@ def cellWithSmallestSet(matrix):
                     found = True
     if found:
         return minCords
-    else:
-        print("no min cords found")
-        printMatrix(matrix)
-
-
 
 def main():
     matrix = createTheSudokuBoard()
