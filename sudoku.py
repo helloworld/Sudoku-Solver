@@ -276,6 +276,9 @@ def solutionIsPossible(matrix):
 
 
 def solutionIsCorrect(matrix):
+    if(numberOfEmptySells(matrix) > 0):
+        return False
+
     rows = [[], [], [], [], [], [], [], [], [], ]
     cols = [[], [], [], [], [], [], [], [], [], ]
     block = getBlocks(matrix)
